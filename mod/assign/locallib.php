@@ -3367,7 +3367,12 @@ class assign {
         $filename = clean_filename($this->get_course()->shortname . '-' .
                                    $this->get_instance()->name . '-' .
                                    $groupname.$this->get_course_module()->id . '.zip');
-
+        // Sort students by last name
+        usort($students, function($a, $b) {
+            return strcmp($a->firstname, $b->firstname);
+        });
+        $sortkey = 0;
+        $sortkeypad = strlen((string) count($students));
         // Get all the files for each student.
         foreach ($students as $student) {
             $userid = $student->id;
@@ -3397,7 +3402,8 @@ class assign {
                     $prefix = str_replace('_', ' ', $groupname . get_string('participant', 'assign'));
                     $prefix = clean_filename($prefix . '_' . $this->get_uniqueid_for_user($userid));
                 } else {
-                    $prefix = str_replace('_', ' ', $groupname . $student->lastname . ' ' . $student->firstname);
+                    $keystring = str_pad($sortkey, '0', $sortkeypad, STR_PAD_LEFT);
+                    $prefix = str_replace('_', ' ', $keystring . $groupname . fullname($student));
                     $prefix = clean_filename($prefix . '_' . $this->get_uniqueid_for_user($userid));
                 }
 
@@ -3452,6 +3458,7 @@ class assign {
                     }
                 }
             }
+            $sortkey++;
         }
         $result = '';
         if (count($filesforzipping) == 0) {
