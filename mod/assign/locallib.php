@@ -3345,8 +3345,8 @@ class assign {
         $this->require_view_grades();
 
         // Load all users with submit.
-        $students = get_enrolled_users($this->context, "mod/assign:submit", null, 'u.*', null, null, null,
-                        $this->show_only_active_users());
+        $students = get_enrolled_users($this->context, "mod/assign:submit", null, 'u.*', 'lastname',
+                    null, null, $this->show_only_active_users());
 
         // Build a list of files to zip.
         $filesforzipping = array();
@@ -3367,12 +3367,12 @@ class assign {
         $filename = clean_filename($this->get_course()->shortname . '-' .
                                    $this->get_instance()->name . '-' .
                                    $groupname.$this->get_course_module()->id . '.zip');
-        // Sort students by last name
-        usort($students, function($a, $b) {
-            return strcmp($a->firstname, $b->firstname);
-        });
+
+        // Initialize sort key to be prepended to file/folder names.
         $sortkey = 0;
         $sortkeypad = strlen((string) count($students));
+        $sortinc = false; // If a student has no submissions, we don't increment the sort key.
+
         // Get all the files for each student.
         foreach ($students as $student) {
             $userid = $student->id;
@@ -3454,11 +3454,16 @@ class assign {
                                     $filesforzipping[$prefixedfilename] = $file;
                                 }
                             }
+                            // If there are files to export, increment our file sort key.
+                            if (count($pluginfiles) > 0) {
+                                $sortinc = true;
+                            }
                         }
                     }
                 }
             }
-            $sortkey++;
+            $sortkey = $sortinc ? $sortkey + 1 : $sortkey;
+            $sortinc = false;
         }
         $result = '';
         if (count($filesforzipping) == 0) {
