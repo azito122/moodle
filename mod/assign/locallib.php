@@ -3369,7 +3369,7 @@ class assign {
                                    $groupname.$this->get_course_module()->id . '.zip');
 
         // Initialize sort key to be prepended to file/folder names.
-        $sortkey = 0;
+        $sortkey = 1;
         $sortkeypad = strlen((string) count($students));
         $sortinc = false; // If a student has no submissions, we don't increment the sort key.
 
@@ -3454,16 +3454,12 @@ class assign {
                                     $filesforzipping[$prefixedfilename] = $file;
                                 }
                             }
-                            // If there are files to export, increment our file sort key.
-                            if (count($pluginfiles) > 0) {
-                                $sortinc = true;
-                            }
                         }
                     }
+                    // If there are files to export, increment our file sort key.
+                    $sortkey++;
                 }
             }
-            $sortkey = $sortinc ? $sortkey + 1 : $sortkey;
-            $sortinc = false;
         }
         $result = '';
         if (count($filesforzipping) == 0) {
