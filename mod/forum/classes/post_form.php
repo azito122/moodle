@@ -149,6 +149,8 @@ class mod_forum_post_form extends moodleform {
 
         if ($forum->anonymous == FORUM_ANONYMOUS_ALLOWED && ($post->userid != $CFG->anonymous_userid) && empty($post->id)) {
             $mform->addElement('checkbox', 'anonymous', get_string('forum:anonymouspost', 'local_lae'));
+        } else if ($forum->anonymous == FORUM_ANONYMOUS_ALWAYS && ($post->userid != $CFG->anonymous_userid) && empty($post->id)) {
+            $mform->addElement('checkbox', 'anonymous', get_string('forum:anonymouspost', 'local_lae'), null, array('disabled' => 1));
         }
 
         if ($groupmode = groups_get_activity_groupmode($cm, $course)) {

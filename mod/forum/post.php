@@ -631,6 +631,7 @@ $mform_post->set_data(array(        'attachments'=>$draftitemid,
                                         'itemid'=>$draftid_editor
                                     ),
                                     'discussionsubscribe' => $discussionsubscribe,
+                                    'anonymous' => $forum->anonymous == FORUM_ANONYMOUS_ALWAYS ? 1 : 0,
                                     'mailnow'=>!empty($post->mailnow),
                                     'userid'=>$post->userid,
                                     'parent'=>$post->parent,
