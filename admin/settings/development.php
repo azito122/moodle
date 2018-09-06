@@ -14,6 +14,11 @@ if ($hassiteconfig) { // speedup for non-admins, add all caps used on this page
 
     $temp->add(new admin_setting_configcheckbox('dndallowtextandlinks', new lang_string('dndallowtextandlinks', 'admin'), new lang_string('configdndallowtextandlinks', 'admin'), 0));
 
+    $temp->add(new admin_setting_configselect('participantsdefaultsort', new lang_string('participantsdefaultsort', 'admin'), new lang_string('participantsdefaultsort_desc', 'admin'), 'lastname', array(
+        'firstname' => new lang_string('firstname', 'moodle'),
+        'lastname'  => new lang_string('lastname', 'moodle'),
+        'email'     => new lang_string('email', 'moodle'))));
+
     $ADMIN->add('experimental', $temp);
 
     // "debugging" settingpage
