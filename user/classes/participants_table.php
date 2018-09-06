@@ -210,8 +210,8 @@ class participants_table extends \table_sql {
         $this->define_columns($columns);
         $this->define_headers($headers);
 
-        // Make this table sorted by first name by default.
-        $this->sortable(true, 'firstname');
+        // Sort this table based on the admin setting.
+        $this->sortable(true, $CFG->participantsdefaultsort);
 
         $this->no_sorting('select');
         $this->no_sorting('roles');
@@ -468,4 +468,3 @@ class participants_table extends \table_sql {
         }
     }
 }
-
