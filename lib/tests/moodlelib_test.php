@@ -2867,6 +2867,55 @@ class core_moodlelib_testcase extends advanced_testcase {
         $testname = fullname($user);
         $this->assertSame($expectedname, $testname);
 
+        // Test template fallbacks.
+        $altuser = clone $user;
+        $altuser->alternatename = '';
+        $altuser->firstnamephonetic = '';
+        $altuser->lastnamephonetic = '';
+        $configarray = array(
+            // Basic test.
+            array(
+                'config' => "alternatename\nfirstname lastname",
+                'expected' => "$user->firstname $user->lastname",
+            ),
+            // Ensure that's not just the language string fallback we're seeing.
+            array(
+                'config' => "alternatename\nlastname firstname",
+                'expected' => "$user->lastname $user->firstname",
+            ),
+            // None required, one undefined: don't fallback.
+            array(
+                'config' => "alternatename lastname\nlastname firstname",
+                'expected' =>"$user->lastname",
+            ),
+            // None required, none defined: fallback.
+            array(
+                'config' => "alternatename lastnamephonetic\nlastname firstname",
+                'expected' => "$user->lastname $user->firstname",
+            ),
+            // One required undefined: fallback.
+            array(
+                'config' => "*alternatename lastname\nlastname firstname",
+                'expected' => "$user->lastname $user->firstname",
+            ),
+            // One required defined, one optional undefined: don't fallback.
+            array(
+                'config' => "*firstname lastnamephonetic\nlastname firstname",
+                'expected' => "$user->firstname",
+            ),
+            // No valid template: lang string.
+            array(
+                'config' => "alternatename\nfirstnamephonetic lastnamephonetic",
+                'expected' => "$user->firstname $user->lastname",
+            ),
+        );
+
+        foreach ($configarray as $config) {
+            $CFG->fullnamedisplay = $config['config'];
+            $this->assertSame($config['expected'], fullname($altuser));
+        }
+
+
         // Regular expression testing.
         // Remove some data from the user fields.
         $user->firstnamephonetic = '';

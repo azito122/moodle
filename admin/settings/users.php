@@ -189,11 +189,11 @@ if ($hassiteconfig
                     'city'        => new lang_string('city'),
                     'country'     => new lang_string('country'),
                 )));
-        $setting = new admin_setting_configtext('fullnamedisplay', new lang_string('fullnamedisplay', 'admin'),
-            new lang_string('configfullnamedisplay', 'admin'), 'language', PARAM_TEXT, 50);
+        $setting = new admin_setting_configtextarea('fullnamedisplay', new lang_string('fullnamedisplay', 'admin'),
+            new lang_string('configfullnamedisplayfallback', 'admin'), 'language', PARAM_TEXT, 50);
         $setting->set_force_ltr(true);
         $temp->add($setting);
-        $temp->add(new admin_setting_configtext('alternativefullnameformat', new lang_string('alternativefullnameformat', 'admin'),
+        $temp->add(new admin_setting_configtextarea('alternativefullnameformat', new lang_string('alternativefullnameformat', 'admin'),
                 new lang_string('alternativefullnameformat_desc', 'admin'),
                 'language', PARAM_RAW, 50));
         $temp->add(new admin_setting_configtext('maxusersperpage', new lang_string('maxusersperpage','admin'), new lang_string('configmaxusersperpage','admin'), 100, PARAM_INT));
