@@ -3508,7 +3508,7 @@ function fullname($user, $override=false) {
 
     $displayname = '';
     // Resolve template fallbacks.
-    $fallbacks = explode("\n", $displayname);
+    $fallbacks = explode("\n", $template);
     foreach ($fallbacks as $possibletemplate) {
         $tokens = explode(' ', $possibletemplate);
         $check = true;
