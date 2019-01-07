@@ -3464,6 +3464,9 @@ function fullname($user, $override=false) {
         }
     }
 
+    // Add 'fullnamedisplay' as user field temporarily.
+    $user->language = get_string('fullnamedisplay', null, $user);
+
     if (!$override) {
         if (!empty($CFG->forcefirstname)) {
             $user->firstname = $CFG->forcefirstname;
@@ -3484,14 +3487,14 @@ function fullname($user, $override=false) {
     }
     // If the template is empty, or set to language, return the language string.
     if ((empty($template) || $template == 'language') && !$override) {
-        return get_string('fullnamedisplay', null, $user);
+        return $user->language;
     }
 
     // Check to see if we are displaying according to the alternative full name format.
     if ($override) {
         if (empty($CFG->alternativefullnameformat) || $CFG->alternativefullnameformat == 'language') {
             // Default to show just the user names according to the fullnamedisplay string.
-            return get_string('fullnamedisplay', null, $user);
+            return $user->language;
         } else {
             // If the override is true, then change the template to use the complete name.
             $template = $CFG->alternativefullnameformat;
@@ -3509,7 +3512,7 @@ function fullname($user, $override=false) {
     $displayname = $template;
     // Resolve template fallbacks.
     $fallbacks = explode("\n", $displayname);
-    array_push($fallbacks, 'firstname lastname'); // Hardcode fallback to firstname lastname.
+    array_push($fallbacks, 'firstnamephonetic lastnamephonetic'); // Hardcode fallback to firstname lastname.
     foreach ($fallbacks as $possibletemplate) {
         $tokens = explode(' ', $possibletemplate);
         $check = true;
