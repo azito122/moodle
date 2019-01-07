@@ -3508,7 +3508,7 @@ function fullname($user, $override=false) {
 
     $displayname = $template;
     // Resolve template fallbacks.
-    $fallbacks = explode("|", $displayname);
+    $fallbacks = explode("\n", $displayname);
     array_push($fallbacks, 'firstname lastname'); // Hardcode fallback to firstname lastname.
     foreach ($fallbacks as $possibletemplate) {
         $tokens = explode(' ', $possibletemplate);
