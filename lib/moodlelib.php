@@ -3510,9 +3510,11 @@ function fullname($user, $override=false) {
     // Resolve template fallbacks.
     $fallbacks = explode("\n", $template);
     foreach ($fallbacks as $possibletemplate) {
-        $tokens = explode(' ', $possibletemplate);
+        $keysforthistemplate = array_filter($requirednames,function($k) use ($possibletemplate) {
+            return strpos($possibletemplate, $k) !== false;
+        });
         $check = true;
-        foreach ($tokens as $key) {
+        foreach ($keysforthistemplate as $key) {
             $key = trim($key);
             if (!isset($user->$key) || (string)$user->$key == '') {
                 $check = false;
