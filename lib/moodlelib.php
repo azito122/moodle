@@ -3507,6 +3507,23 @@ function fullname($user, $override=false) {
     }
 
     $displayname = $template;
+    // Resolve template fallbacks.
+    $fallbacks = explode("|", $displayname);
+    array_push($fallbacks, 'firstname lastname'); // Hardcode fallback to firstname lastname.
+    foreach ($fallbacks as $possibletemplate) {
+        $tokens = explode(' ', $possibletemplate);
+        $check = true;
+        foreach ($tokens as $key) {
+            $key = trim($key);
+            if (!isset($user->$key) || (string)$user->$key == '') {
+                $check = false;
+            }
+        }
+        if ($check) {
+            $displayname = $possibletemplate;
+            break;
+        }
+    }
     // Switch in the actual data into the template.
     foreach ($requirednames as $altname) {
         if (isset($user->$altname)) {
