@@ -3526,13 +3526,8 @@ function fullname($user, $override=false) {
     }
     // Switch in the actual data into the template.
     foreach ($requirednames as $altname) {
-        if (isset($user->$altname)) {
-            // Using empty() on the below if statement causes breakages.
-            if ((string)$user->$altname == '') {
-                $displayname = str_replace($altname, 'EMPTY', $displayname);
-            } else {
-                $displayname = str_replace($altname, $user->$altname, $displayname);
-            }
+        if (isset($user->$altname) && !(string)$user->$altname == '') {
+            $displayname = str_replace($altname, $user->$altname, $displayname);
         } else {
             $displayname = str_replace($altname, 'EMPTY', $displayname);
         }
