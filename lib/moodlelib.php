@@ -3483,9 +3483,9 @@ function fullname($user, $override=false) {
     $template = null;
     // Check to see if we are displaying according to the alternative full name format.
     if ($override) {
-        $template = $CFG->alternativefullnameformat;
+        $template = $CFG->alternativefullnameformat ?? '';
     } else {
-        $template = $CFG->fullnamedisplay;
+        $template = $CFG->fullnamedisplay ?? '';
     }
 
     // Check one: if raw template config is empty, or set to language, return the language string.
