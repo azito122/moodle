@@ -190,7 +190,7 @@ if ($hassiteconfig
                     'country'     => new lang_string('country'),
                 )));
         $setting = new admin_setting_configtextarea('fullnamedisplay', new lang_string('fullnamedisplay', 'admin'),
-            new lang_string('configfullnamedisplay', 'admin'), 'language', PARAM_TEXT, 50);
+            new lang_string('configfullnamedisplayfallback', 'admin'), 'language', PARAM_TEXT, 50);
         $setting->set_force_ltr(true);
         $temp->add($setting);
         $temp->add(new admin_setting_configtextarea('alternativefullnameformat', new lang_string('alternativefullnameformat', 'admin'),

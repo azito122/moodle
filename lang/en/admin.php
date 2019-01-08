@@ -250,9 +250,11 @@ $string['configfrontpage'] = 'The items selected above will be displayed on the 
 $string['configfrontpagecourselimit'] = 'Maximum number of courses';
 $string['configfrontpagecourselimithelp'] = 'Maximum number of courses to be displayed on the site\'s front page in course listings.';
 $string['configfrontpageloggedin'] = 'The items selected above will be displayed on the site\'s front page when a user is logged in.';
-$string['configfullnamedisplay'] = 'This defines how names are shown when they are displayed in full. The default value, "language", leaves it to the string "fullnamedisplay" in the current language pack to decide. Some languages have different name display conventions.
+$string['configfullnamedisplayfallback'] = 'This defines how names are shown when they are displayed in full. The default value, "language", leaves it to the string "fullnamedisplay" in the current language pack to decide. Some languages have different name display conventions.
 
-For most mono-lingual sites the most efficient setting is "firstname lastname", but you may choose to hide surnames altogether. Placeholders that can be used are: firstname, lastname, firstnamephonetic, lastnamephonetic, middlename, and alternatename.';
+For most mono-lingual sites the most efficient setting is "firstname lastname", but you may choose to hide surnames altogether. Placeholders that can be used are: firstname, lastname, firstnamephonetic, lastnamephonetic, middlename, and alternatename.
+
+Each line is a fallback template -- if a line contains a token that does not have a value for the given user, then the following line will be used instead. If none of the possible templates succeed, it will default to \'language\'';
 $string['configgeoipfile'] = 'Location of GeoLite2 City binary data file. This file is not part of Moodle distribution and must be obtained separately from <a href="http://www.maxmind.com/">MaxMind</a>. You can either buy a commercial version or use the free version. Simply download <a href="http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz" >http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz</a> and extract it into "{$a}" directory on your server.';
 $string['configgetremoteaddrconf'] = 'If your server is behind a reverse proxy, you can use this setting to specify which HTTP headers can be trusted to contain the remote IP address. The headers are read in order, using the first one that is available.';
 $string['configgradebookroles'] = 'This setting allows you to control who appears on the gradebook.  Users need to have at least one of these roles in a course to be shown in the gradebook for that course.';
