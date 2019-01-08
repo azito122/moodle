@@ -3506,22 +3506,23 @@ function fullname($user, $override=false) {
         }
     }
 
-    $displayname = '';
     // Resolve template fallbacks.
-    $fallbacks = explode("\n", $template);
-    foreach ($fallbacks as $possibletemplate) {
-        $keysforthistemplate = array_filter($requirednames,function($k) use ($possibletemplate) {
-            return strpos($possibletemplate, $k) !== false;
+    $displayname = '';
+    $possibletemplates = explode("\n", $template);
+    foreach ($possibletemplates as $template) {
+        // Pare down $requirednames into fields appearing in this template.
+        $fields = array_filter($requirednames, function($k) use ($template) {
+            return strpos($template, $k) !== false;
         });
         $check = true;
-        foreach ($keysforthistemplate as $key) {
-            $key = trim($key);
-            if (!isset($user->$key) || (string)$user->$key == '') {
+        foreach ($fields as $field) {
+            $field = trim($field);
+            if (!isset($user->$field) || (string)$user->$field == '') {
                 $check = false;
             }
         }
         if ($check) {
-            $displayname = $possibletemplate;
+            $displayname = $template;
             break;
         }
     }
