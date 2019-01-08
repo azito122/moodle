@@ -3477,25 +3477,21 @@ function fullname($user, $override=false) {
         $CFG->fullnamedisplay = $SESSION->fullnamedisplay;
     }
 
-    $template = null;
-    // If the fullnamedisplay setting is available, set the template to that.
-    if (isset($CFG->fullnamedisplay)) {
-        $template = $CFG->fullnamedisplay;
-    }
-    // If the template is empty, or set to language, return the language string.
-    if ((empty($template) || $template == 'language') && !$override) {
-        return get_string('fullnamedisplay', null, $user);
-    }
+    // Set 'language' value for later use.
+    $language = get_string('fullnamedisplay', null, $user);
 
+    $template = null;
     // Check to see if we are displaying according to the alternative full name format.
     if ($override) {
-        if (empty($CFG->alternativefullnameformat) || $CFG->alternativefullnameformat == 'language') {
-            // Default to show just the user names according to the fullnamedisplay string.
-            return get_string('fullnamedisplay', null, $user);
-        } else {
-            // If the override is true, then change the template to use the complete name.
-            $template = $CFG->alternativefullnameformat;
-        }
+        $template = $CFG->alternativefullnameformat;
+    } else {
+        $template = $CFG->fullnamedisplay;
+    }
+
+    // Check one: if raw template config is empty, or set to language, return the language string.
+    $template = trim($template);
+    if ((empty($template) || $template == 'language')) {
+        return $language;
     }
 
     $requirednames = array();
@@ -3526,10 +3522,12 @@ function fullname($user, $override=false) {
             break;
         }
     }
-    // If no template found, default to language.
+
+    // Check two: if no valid template is resolved, return the language string.
     if ($displayname == '') {
-        return get_string('fullnamedisplay', null, $user);
+        return $language;
     }
+
     // Switch in the actual data into the template.
     foreach ($requirednames as $altname) {
         if (isset($user->$altname) && (string)$user->$altname !== '') {
@@ -3538,6 +3536,7 @@ function fullname($user, $override=false) {
             $displayname = str_replace($altname, 'EMPTY', $displayname);
         }
     }
+
     // Tidy up any misc. characters (Not perfect, but gets most characters).
     // Don't remove the "u" at the end of the first expression unless you want garbled characters when combining hiragana or
     // katakana and parenthesis.
@@ -3554,11 +3553,11 @@ function fullname($user, $override=false) {
 
     // Trimming $displayname will help the next check to ensure that we don't have a display name with spaces.
     $displayname = trim($displayname);
+    // Check three: if somehow the populated resolved template is empty, return the language string.
     if (empty($displayname)) {
-        // Going with just the first name if no alternate fields are filled out. May be changed later depending on what
-        // people in general feel is a good setting to fall back on.
-        $displayname = $user->firstname;
+        return $language;
     }
+
     return $displayname;
 }
 
