@@ -3494,7 +3494,7 @@ function fullname($user, $override=false) {
         return $language;
     }
 
-    $requirednames = array();
+    $requirednames = array('language');
     // With each name, see if it is in the display name template, and add it to the required names array if it is.
     foreach ($allnames as $allname) {
         if (strpos($template, $allname) !== false) {
@@ -3505,6 +3505,7 @@ function fullname($user, $override=false) {
     // Resolve template fallbacks.
     $displayname = '';
     $possibletemplates = explode("\n", $template);
+    $user->language = $language; // Set up language as a token.
     foreach ($possibletemplates as $template) {
         // Pare down $requirednames into fields appearing in this template.
         $fields = array_filter($requirednames, function($k) use ($template) {
