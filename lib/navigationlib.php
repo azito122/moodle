@@ -2595,12 +2595,9 @@ class global_navigation extends navigation_node {
         // This is the name that will be shown for the course.
         $coursename = empty($CFG->navshowfullcoursenames) ? $shortname : $fullname;
 
-        if ($coursetype == self::COURSE_CURRENT) {
-            if ($coursenode = $this->rootnodes['mycourses']->find($course->id, self::TYPE_COURSE)) {
-                return $coursenode;
-            } else {
-                $coursetype = self::COURSE_OTHER;
-            }
+        if ($coursetype == self::COURSE_CURRENT
+             && $coursenode = $this->rootnodes['mycourses']->find($course->id, self::TYPE_COURSE)) {
+            return $coursenode;
         }
 
         // Can the user expand the course to see its content.
